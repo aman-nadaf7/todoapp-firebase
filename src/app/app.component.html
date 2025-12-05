@@ -1,0 +1,21 @@
+<div class="app-shell">
+  <div class="app-card">
+    <header class="app-header">
+      <div>
+        <h1 class="app-title">Angular + Firebase TODO</h1>
+        <p class="app-subtitle">Simple realtime task manager with Firestore</p>
+      </div>
+
+      <nav class="app-nav">
+        <a routerLink="/todos" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+          Todo List
+        </a>
+        <a routerLink="/todos/add" routerLinkActive="nav-active">
+          Add Todo
+        </a>
+      </nav>
+    </header>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

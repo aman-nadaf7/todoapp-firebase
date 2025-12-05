@@ -1,0 +1,125 @@
+<div class="todo-header-row">
+  <h2 class="section-title">Todo List</h2>
+  <a routerLink="/todos/add" class="link-button">+ Add Todo</a>
+</div>
+
+<div *ngIf="groupedTodos().today.length ||
+            groupedTodos().yesterday.length ||
+            groupedTodos().older.length; else emptyState">
+  <!-- Today -->
+  <section class="todo-section" *ngIf="groupedTodos().today.length">
+    <h3 class="section-title">Today</h3>
+    <ul class="todo-list">
+      <li
+        class="todo-item"
+        *ngFor="let todo of groupedTodos().today; trackBy: trackById"
+      >
+        <div class="todo-main">
+          <div class="todo-title-row">
+            <span class="todo-title">{{ todo.title }}</span>
+            <span
+              class="todo-status-pill"
+              [ngClass]="{
+                'todo-status-pending': todo.status === 'pending',
+                'todo-status-in-progress': todo.status === 'in-progress',
+                'todo-status-completed': todo.status === 'completed'
+              }"
+            >
+              {{ todo.status }}
+            </span>
+          </div>
+          <div class="todo-desc">{{ todo.description }}</div>
+        </div>
+
+        <div class="todo-actions">
+          <a
+            [routerLink]="['/todos/edit', todo.id]"
+            class="btn btn-secondary"
+          >
+            Edit
+          </a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Yesterday -->
+  <section class="todo-section" *ngIf="groupedTodos().yesterday.length">
+    <h3 class="section-title">Yesterday</h3>
+    <ul class="todo-list">
+      <li
+        class="todo-item"
+        *ngFor="let todo of groupedTodos().yesterday; trackBy: trackById"
+      >
+        <div class="todo-main">
+          <div class="todo-title-row">
+            <span class="todo-title">{{ todo.title }}</span>
+            <span
+              class="todo-status-pill"
+              [ngClass]="{
+                'todo-status-pending': todo.status === 'pending',
+                'todo-status-in-progress': todo.status === 'in-progress',
+                'todo-status-completed': todo.status === 'completed'
+              }"
+            >
+              {{ todo.status }}
+            </span>
+          </div>
+          <div class="todo-desc">{{ todo.description }}</div>
+        </div>
+
+        <div class="todo-actions">
+          <a
+            [routerLink]="['/todos/edit', todo.id]"
+            class="btn btn-secondary"
+          >
+            Edit
+          </a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Older -->
+  <section class="todo-section" *ngIf="groupedTodos().older.length">
+    <h3 class="section-title">Older</h3>
+    <ul class="todo-list">
+      <li
+        class="todo-item"
+        *ngFor="let todo of groupedTodos().older; trackBy: trackById"
+      >
+        <div class="todo-main">
+          <div class="todo-title-row">
+            <span class="todo-title">{{ todo.title }}</span>
+            <span
+              class="todo-status-pill"
+              [ngClass]="{
+                'todo-status-pending': todo.status === 'pending',
+                'todo-status-in-progress': todo.status === 'in-progress',
+                'todo-status-completed': todo.status === 'completed'
+              }"
+            >
+              {{ todo.status }}
+            </span>
+          </div>
+          <div class="todo-desc">{{ todo.description }}</div>
+        </div>
+
+        <div class="todo-actions">
+          <a
+            [routerLink]="['/todos/edit', todo.id]"
+            class="btn btn-secondary"
+          >
+            Edit
+          </a>
+        </div>
+      </li>
+    </ul>
+  </section>
+</div>
+
+<ng-template #emptyState>
+  <p class="todo-empty">
+    No todos yet. Click <strong>Add Todo</strong> to create your first task.
+  </p>
+</ng-template>

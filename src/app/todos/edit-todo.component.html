@@ -1,0 +1,54 @@
+<div class="todo-header-row">
+  <h2 class="section-title">Edit Todo</h2>
+  <a routerLink="/todos" class="link-button">← Back to list</a>
+</div>
+
+<form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="form">
+  <div class="form-group">
+    <label>Title</label>
+    <input formControlName="title" class="form-input" />
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea
+      formControlName="description"
+      class="form-textarea"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Status</label>
+    <select formControlName="status" class="form-select">
+      <option value="pending">Pending</option>
+      <option value="in-progress">In Progress</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+
+  <div class="btn-row">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="todoForm.invalid"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="onDelete()"
+    >
+      Delete
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="router.navigate(['/todos'])"
+    >
+      Update
+    </button>
+  </div>
+</form>
