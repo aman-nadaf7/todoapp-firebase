@@ -1,7 +1,4 @@
-.todo-checkbox {
-  margin-right: 0.4rem;
-  accent-color: #22c55e; /* green check */
-}
+
 
 /* search bar styling */
 .search-row {
@@ -48,4 +45,114 @@
   font-size: 0.9rem;
   opacity: 0.7;
   pointer-events: none;
+}
+.todo-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* prettier, larger checkbox */
+.todo-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #4b5563;
+  background: radial-gradient(circle at 30% 30%, #111827, #020617);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    border-color 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    transform 0.08s ease-out;
+  margin-right: 0; /* gap is controlled by flex gap now */
+}
+
+.todo-checkbox:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+/* checked state: green with check mark */
+.todo-checkbox:checked {
+  border-color: transparent;
+  background:
+    radial-gradient(circle at 30% 30%, #22c55e, #16a34a);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35);
+}
+
+.todo-checkbox:checked::after {
+  content: '✔';
+  font-size: 0.9rem;
+  color: #e5f9ef;
+  transform: translateY(-1px);
+}
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    color 0.15s ease-out,
+    transform 0.1s ease-out,
+    box-shadow 0.15s ease-out;
+}
+
+/* circular red accent on hover */
+.icon-btn-danger:hover {
+  background: radial-gradient(circle at 30% 30%, #b91c1c, #7f1d1d);
+  color: #fee2e2;
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Trash icon shape using CSS only */
+.icon-trash {
+  position: relative;
+  width: 12px;
+  height: 13px;
+  box-sizing: border-box;
+}
+
+/* bin body */
+.icon-trash::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 0;
+  top: 4px;
+  border-radius: 1px;
+  border: 2px solid currentColor;
+  box-sizing: border-box;
+}
+
+/* bin lid */
+.icon-trash::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1px;
+  height: 4px;
+  border-radius: 2px;
+  border: 2px solid currentColor;
+  border-bottom: none;
+  box-sizing: border-box;
 }
