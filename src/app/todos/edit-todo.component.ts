@@ -33,7 +33,7 @@ originalValue!: { title: string; description: string; status: string };
   ) {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3),Validators.pattern('^(?=.*[A-Za-z]).+$')]],
-      description: ['', [Validators.maxLength(500)]],
+      description: ['', [Validators.maxLength(100)]],
       status: ['pending', Validators.required],
     });
 

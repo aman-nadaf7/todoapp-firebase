@@ -28,7 +28,7 @@ export class TodoListComponent {
     });
   }
 
-  // group by date (unchanged)
+  // group by date + sort: incomplete first, completed last
   groupedTodos = computed(() => {
     const all = this.todos();
     const groups = new Map<string, Todo[]>();
@@ -49,13 +49,29 @@ export class TodoListComponent {
       groups.get(key)!.push(todo);
     });
 
-    return Array.from(groups.entries()).map(([date, todos]) => ({
-      date,
-      todos,
-    }));
+    return Array.from(groups.entries()).map(([date, todos]) => {
+      // sort inside this day: pending first, completed last
+      const sorted = [...todos].sort((a, b) => {
+        const aCompleted = a.status === 'completed';
+        const bCompleted = b.status === 'completed';
+
+        if (aCompleted === bCompleted) {
+          // same status -> keep original order
+          return 0;
+        }
+
+        // completed should go after incomplete
+        return aCompleted ? 1 : -1;
+      });
+
+      return {
+        date,
+        todos: sorted,
+      };
+    });
   });
 
-  // NEW: apply search over grouped todos
+  // apply search over grouped todos
   filteredGroupedTodos = computed(() => {
     const term = this.searchText().toLowerCase().trim();
     const groups = this.groupedTodos();

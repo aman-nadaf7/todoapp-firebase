@@ -17,12 +17,14 @@ import { validateEventsArray } from '@angular/fire/compat/firestore';
 @Component({
   selector: 'app-add-todo',
   standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule],
 
   templateUrl: './add-todo.component.html',
   styleUrls: ['./add-todo.component.css'],
 })
 export class AddTodoComponent {
+
+
   todoForm: FormGroup;
 
   constructor(
@@ -32,7 +34,7 @@ export class AddTodoComponent {
 ) {
   this.todoForm = this.fb.group({
   title: ['', [Validators.required, Validators.minLength(3),,Validators.pattern('^(?=.*[A-Za-z]).+$')]],
-  description: ['', [Validators.maxLength(500)]],
+  description: ['', [Validators.maxLength(100)]],
   status: ['pending', Validators.required],
   
 });
@@ -66,6 +68,21 @@ export class AddTodoComponent {
 noWhitespaceValidator(control: AbstractControl) {
   const value = (control.value || '').toString();
   return value.trim().length === 0 ? { whitespace: true } : null;
+}
+goBackToList() {
+  // if form is pristine (nothing typed), just go back
+  if (this.todoForm.pristine) {
+    this.router.navigate(['/todos']);
+    return;
+  }
+
+  const confirmLeave = confirm(
+    'You have unsaved changes. Are you sure you want to go back?'
+  );
+
+  if (confirmLeave) {
+    this.router.navigate(['/todos']);
+  }
 }
 
 }

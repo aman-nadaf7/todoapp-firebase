@@ -1,6 +1,13 @@
 <div class="todo-header-row">
   <h2 class="section-title">Add Todo</h2>
-<a routerLink="/todos" class="link-button">← Back to list</a>
+<button
+  type="button"
+  class="link-button"
+  (click)="goBackToList()"
+>
+  ← Back to list
+</button>
+
 </div>
 
 <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="form">
@@ -18,9 +25,6 @@
   </small>
 </div>
 
-
-
-
   <div class="btn-row">
     <button
       type="submit"
@@ -32,11 +36,12 @@
     </button>
 
     <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="router.navigate(['/todos'])"
-    >
-      Cancel
-    </button>
+  type="button"
+  class="btn btn-secondary"
+  (click)="goBackToList()"
+>
+  Cancel
+</button>
+
   </div>
 </form>
