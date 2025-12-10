@@ -1,0 +1,13 @@
+.helper {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.error {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  color: #fca5a5;
+}

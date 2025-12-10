@@ -12,18 +12,51 @@
 
 <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="form">
   <div class="form-group">
-    <label>Title</label>
-    <input formControlName="title" class="form-input" />
-  </div>
+  <label>Title *</label>
+  <input
+    formControlName="title"
+    class="form-input"
+    placeholder="What needs to be done?"
+  />
+
+  <!-- helper text -->
+  <small class="helper">
+    Give your task a clear, action‑oriented name.
+  </small>
+
+  <!-- validation message -->
+  <small
+    class="error"
+    *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched"
+  >
+    Title is required and must contain at least 3 characters with letters.
+  </small>
+</div>
+
 
   <div class="form-group">
   <label>Description</label>
-  <textarea formControlName="description" class="form-textarea"></textarea>
-  <small class="error"
-    *ngIf="todoForm.get('description')?.errors?.['maxlength'] && todoForm.get('description')?.touched">
-    Description cannot be longer than 500 characters.
+  <textarea
+    formControlName="description"
+    class="form-textarea"
+    placeholder="Add more details…"
+  ></textarea>
+
+  <small class="helper">
+    Describe the task so you know exactly what to do later.
+  </small>
+
+  <small
+    class="error"
+    *ngIf="
+      todoForm.get('description')?.invalid &&
+      todoForm.get('description')?.touched
+    "
+  >
+    Description is required.
   </small>
 </div>
+
 
   <div class="btn-row">
     <button

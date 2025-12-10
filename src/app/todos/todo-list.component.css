@@ -156,3 +156,14 @@
   border-bottom: none;
   box-sizing: border-box;
 }
+.todo-title-time {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.todo-time {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  opacity: 0.9;
+}

@@ -41,7 +41,15 @@
               (click)="$event.stopPropagation()"
               (change)="toggleCompleted(todo, $event.target.checked)"
             />
-            <span class="todo-title">{{ todo.title }}</span>
+            <div class="todo-title-time">
+    <span class="todo-title">{{ todo.title }}</span>
+  </div>
+  <div class="todo-title-time">
+    <span class="todo-time">
+      {{ todo.createdAt?.toDate() | date: 'shortTime' }}
+    </span>
+  </div>
+            
             <span
               class="todo-status-pill"
               [ngClass]="{
