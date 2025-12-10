@@ -10,21 +10,16 @@
   </div>
 
   <div class="form-group">
-    <label>Description</label>
-    <textarea
-      formControlName="description"
-      class="form-textarea"
-    ></textarea>
-  </div>
+  <label>Description</label>
+  <textarea formControlName="description" class="form-textarea"></textarea>
+  <small class="error"
+    *ngIf="todoForm.get('description')?.errors?.['maxlength'] && todoForm.get('description')?.touched">
+    Description cannot be longer than 500 characters.
+  </small>
+</div>
 
-  <div class="form-group">
-    <label>Status</label>
-    <select formControlName="status" class="form-select">
-      <option value="pending">Pending</option>
-      <option value="in-progress">In Progress</option>
-      <option value="completed">Completed</option>
-    </select>
-  </div>
+
+
 
   <div class="btn-row">
     <button

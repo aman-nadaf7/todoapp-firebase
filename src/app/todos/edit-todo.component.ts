@@ -23,6 +23,7 @@ export class EditTodoComponent implements OnDestroy {
   todoForm: FormGroup;
   todoId!: string;
   sub?: Subscription;
+originalValue!: { title: string; description: string; status: string };
 
   constructor(
     private fb: FormBuilder,
@@ -31,28 +32,37 @@ export class EditTodoComponent implements OnDestroy {
     public router: Router
   ) {
     this.todoForm = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
+      title: ['', [Validators.required, Validators.minLength(3),Validators.pattern('^(?=.*[A-Za-z]).+$')]],
+      description: ['', [Validators.maxLength(500)]],
       status: ['pending', Validators.required],
     });
 
     this.todoId = this.route.snapshot.paramMap.get('id') || '';
 
     if (this.todoId) {
-      this.sub = this.todoService.getTodoById(this.todoId).subscribe((todo: Todo) => {
-        if (todo) {
-          this.todoForm.patchValue({
-            title: todo.title,
-            description: todo.description,
-            status: todo.status,
-          });
-        }
-      });
-    }
+  this.sub = this.todoService
+    .getTodoById(this.todoId)
+    .subscribe((todo: Todo) => {
+      if (todo) {
+        this.originalValue = {
+          title: todo.title || '',
+          description: todo.description || '',
+          status: todo.status || 'pending',
+        };
+
+        this.todoForm.patchValue(this.originalValue);
+        this.todoForm.markAsPristine();
+      }
+    });
+}
+
   }
 
   onSubmit() {
-    if (this.todoForm.invalid || !this.todoId) return;
+    if (this.todoForm.invalid || !this.todoId || !this.todoForm.dirty) {
+      this.todoForm.markAllAsTouched();
+      return;
+    }
 
     this.todoService.updateTodo(this.todoId, this.todoForm.value).then(() => {
       this.router.navigate(['/todos']);
@@ -66,6 +76,24 @@ export class EditTodoComponent implements OnDestroy {
       this.router.navigate(['/todos']);
     });
   }
+
+  goBackToList() {
+  // if form is pristine (no user edits), just go back
+  if (this.todoForm.pristine) {
+    this.router.navigate(['/todos']);
+    return;
+  }
+
+  const confirmLeave = confirm(
+    'You have unsaved changes. Are you sure you want to go back?'
+  );
+
+  if (confirmLeave) {
+    this.router.navigate(['/todos']);
+  }
+}
+
+
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();

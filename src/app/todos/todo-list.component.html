@@ -3,19 +3,44 @@
   <a routerLink="/todos/add" class="link-button">+ Add Todo</a>
 </div>
 
-<div *ngIf="groupedTodos().today.length ||
-            groupedTodos().yesterday.length ||
-            groupedTodos().older.length; else emptyState">
-  <!-- Today -->
-  <section class="todo-section" *ngIf="groupedTodos().today.length">
-    <h3 class="section-title">Today</h3>
+<!-- search bar -->
+<div class="search-row">
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search tasks by title, description, or status"
+      [value]="searchText()"
+      (input)="onSearchChange($event.target.value)"
+    />
+  </div>
+</div>
+
+<div *ngIf="filteredGroupedTodos().length; else emptyState">
+  <section
+    class="todo-section"
+    *ngFor="let group of filteredGroupedTodos()"
+  >
+    <h3 class="section-title">{{ group.date }}</h3>
+
     <ul class="todo-list">
       <li
-        class="todo-item"
-        *ngFor="let todo of groupedTodos().today; trackBy: trackById"
-      >
+  class="todo-item"
+  *ngFor="let todo of group.todos; trackBy: trackById"
+  (click)="todo.status !== 'completed' && router.navigate(['/todos/edit', todo.id])"
+>
+
         <div class="todo-main">
           <div class="todo-title-row">
+            <input
+              type="checkbox"
+              class="todo-checkbox"
+              [checked]="todo.status === 'completed'"
+              [disabled]="todo.status === 'completed'"
+              (click)="$event.stopPropagation()"
+              (change)="toggleCompleted(todo, $event.target.checked)"
+            />
             <span class="todo-title">{{ todo.title }}</span>
             <span
               class="todo-status-pill"
@@ -30,89 +55,14 @@
           </div>
           <div class="todo-desc">{{ todo.description }}</div>
         </div>
-
-        <div class="todo-actions">
-          <a
-            [routerLink]="['/todos/edit', todo.id]"
-            class="btn btn-secondary"
-          >
-            Edit
-          </a>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Yesterday -->
-  <section class="todo-section" *ngIf="groupedTodos().yesterday.length">
-    <h3 class="section-title">Yesterday</h3>
-    <ul class="todo-list">
-      <li
-        class="todo-item"
-        *ngFor="let todo of groupedTodos().yesterday; trackBy: trackById"
-      >
-        <div class="todo-main">
-          <div class="todo-title-row">
-            <span class="todo-title">{{ todo.title }}</span>
-            <span
-              class="todo-status-pill"
-              [ngClass]="{
-                'todo-status-pending': todo.status === 'pending',
-                'todo-status-in-progress': todo.status === 'in-progress',
-                'todo-status-completed': todo.status === 'completed'
-              }"
-            >
-              {{ todo.status }}
-            </span>
-          </div>
-          <div class="todo-desc">{{ todo.description }}</div>
-        </div>
-
-        <div class="todo-actions">
-          <a
-            [routerLink]="['/todos/edit', todo.id]"
-            class="btn btn-secondary"
-          >
-            Edit
-          </a>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Older -->
-  <section class="todo-section" *ngIf="groupedTodos().older.length">
-    <h3 class="section-title">Older</h3>
-    <ul class="todo-list">
-      <li
-        class="todo-item"
-        *ngFor="let todo of groupedTodos().older; trackBy: trackById"
-      >
-        <div class="todo-main">
-          <div class="todo-title-row">
-            <span class="todo-title">{{ todo.title }}</span>
-            <span
-              class="todo-status-pill"
-              [ngClass]="{
-                'todo-status-pending': todo.status === 'pending',
-                'todo-status-in-progress': todo.status === 'in-progress',
-                'todo-status-completed': todo.status === 'completed'
-              }"
-            >
-              {{ todo.status }}
-            </span>
-          </div>
-          <div class="todo-desc">{{ todo.description }}</div>
-        </div>
-
-        <div class="todo-actions">
-          <a
-            [routerLink]="['/todos/edit', todo.id]"
-            class="btn btn-secondary"
-          >
-            Edit
-          </a>
-        </div>
+        <button
+          class="icon-btn icon-btn-danger"
+          type="button"
+          (click)="onDeleteTodo(todo, $event)"
+          aria-label="Delete todo"
+        >
+          ✕
+        </button>
       </li>
     </ul>
   </section>

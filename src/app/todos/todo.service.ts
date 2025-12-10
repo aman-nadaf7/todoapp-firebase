@@ -1,3 +1,4 @@
+//your Angular app talks to Firebase Firestore for todos. It encapsulates all CRUD operations and real‑time listeners, so components don’t directly touch Firestore.
 import { Injectable } from '@angular/core';
 import {
   Firestore,

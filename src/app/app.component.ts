@@ -8,7 +8,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css', // this path must match the file name
+  styleUrl: './app.component.css', 
 })
 export class AppComponent {
   title = 'todo-firebase';

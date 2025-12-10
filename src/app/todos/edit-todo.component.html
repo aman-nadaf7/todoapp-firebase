@@ -1,6 +1,12 @@
 <div class="todo-header-row">
   <h2 class="section-title">Edit Todo</h2>
-  <a routerLink="/todos" class="link-button">← Back to list</a>
+  <button
+    type="button"
+    class="link-button"
+    (click)="goBackToList()"
+  >
+    ← Back to list
+  </button>
 </div>
 
 <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="form">
@@ -21,7 +27,6 @@
     <label>Status</label>
     <select formControlName="status" class="form-select">
       <option value="pending">Pending</option>
-      <option value="in-progress">In Progress</option>
       <option value="completed">Completed</option>
     </select>
   </div>
@@ -30,9 +35,9 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="todoForm.invalid"
+      [disabled]="todoForm.invalid || !todoForm.dirty"
     >
-      Cancel
+      Update
     </button>
 
     <button
@@ -46,9 +51,9 @@
     <button
       type="button"
       class="btn btn-secondary"
-      (click)="router.navigate(['/todos'])"
+      (click)="goBackToList()"
     >
-      Update
+      Cancel
     </button>
   </div>
 </form>
