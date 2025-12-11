@@ -167,3 +167,19 @@
   color: #9ca3af;
   opacity: 0.9;
 }
+/* completed todo look */
+.todo-completed .todo-title {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(34, 197, 94, 0.85); /* green line */
+  color: #9ca3af;
+}
+
+.todo-completed .todo-desc,
+.todo-completed .todo-time {
+  color: #6b7280;
+}
+
+.todo-completed {
+  opacity: 0.9;
+}

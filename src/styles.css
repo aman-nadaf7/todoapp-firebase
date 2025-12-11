@@ -223,7 +223,6 @@ body {
 .todo-title-row {
   display: flex;
   align-items: center;
-  
   gap: 0.45rem;
   margin-bottom: 0.2rem;
 }

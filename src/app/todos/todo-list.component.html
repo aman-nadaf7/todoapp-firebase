@@ -28,8 +28,10 @@
       <li
   class="todo-item"
   *ngFor="let todo of group.todos; trackBy: trackById"
+  [class.todo-completed]="todo.status === 'completed'"
   (click)="todo.status !== 'completed' && router.navigate(['/todos/edit', todo.id])"
 >
+
 
         <div class="todo-main">
           <div class="todo-title-row">

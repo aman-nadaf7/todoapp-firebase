@@ -1,5 +1,5 @@
 // src/app/todos/edit-todo.component.ts
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -24,6 +24,16 @@ export class EditTodoComponent implements OnDestroy {
   todoId!: string;
   sub?: Subscription;
 originalValue!: { title: string; description: string; status: string };
+
+
+@HostListener('window:beforeunload', ['$event'])
+handleBeforeUnload(event: BeforeUnloadEvent) {
+  if (this.todoForm.dirty) {
+    event.preventDefault();
+    event.returnValue =
+      'You have unsaved changes. Are you sure you want to leave?';
+  }
+}
 
   constructor(
     private fb: FormBuilder,
@@ -94,7 +104,7 @@ originalValue!: { title: string; description: string; status: string };
 }
 
 
-
+// make vanish edit to do page , make invisible for further editing 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }

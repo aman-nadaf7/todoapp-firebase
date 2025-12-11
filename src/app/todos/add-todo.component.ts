@@ -1,5 +1,5 @@
 // src/app/todos/add-todo.component.ts
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -24,13 +24,22 @@ import { validateEventsArray } from '@angular/fire/compat/firestore';
 })
 export class AddTodoComponent {
 
+  @HostListener('window:beforeunload', ['$event'])
+handleBeforeUnload(event: BeforeUnloadEvent) {
+  if (this.todoForm.dirty) {
+    event.preventDefault();
+    event.returnValue =
+      'You have unsaved changes. Are you sure you want to leave?';
+  }
+}
+
 
   todoForm: FormGroup;
 
   constructor(
   private fb: FormBuilder,
   private todoService: TodoService,
-  public router: Router   // <-- public, not private
+  public router: Router   // <-- public
 ) {
   this.todoForm = this.fb.group({
   title: ['', [Validators.required, Validators.minLength(3),,Validators.pattern('^(?=.*[A-Za-z]).+$')]],
